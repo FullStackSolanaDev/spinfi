@@ -770,49 +770,65 @@
     </footer>
 
     <script>
-        // Countdown timer for the current mode
-        function updateCountdown() {
-            // Set the target date (24 hours from now)
-            const now = new Date();
-            const target = new Date(now);
-            target.setHours(target.getHours() + 24);
-            
-            // Calculate the difference
-            const diff = target - now;
-            
-            // Calculate hours, minutes, seconds
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            // Format with leading zeros
-            const formattedHours = hours.toString().padStart(2, '0');
-            const formattedMinutes = minutes.toString().padStart(2, '0');
-            const formattedSeconds = seconds.toString().padStart(2, '0');
-            
-            // Update the display
-            const digits = document.querySelectorAll('.countdown-digit');
-            if (digits.length === 3) {
-                digits[0].textContent = formattedHours;
-                digits[1].textContent = formattedMinutes;
-                digits[2].textContent = formattedSeconds;
-            }
+    // Countdown timer to next 00:00 UTC
+    function updateCountdown() {
+        const now = new Date();
+
+        // Huidige tijd in UTC
+        const nowUTC = new Date(
+            Date.UTC(
+                now.getUTCFullYear(),
+                now.getUTCMonth(),
+                now.getUTCDate(),
+                now.getUTCHours(),
+                now.getUTCMinutes(),
+                now.getUTCSeconds()
+            )
+        );
+
+        // Volgende 00:00 UTC (begin van volgende dag)
+        const nextMidnightUTC = new Date(Date.UTC(
+            nowUTC.getUTCFullYear(),
+            nowUTC.getUTCMonth(),
+            nowUTC.getUTCDate() + 1, // volgende dag
+            0, 0, 0
+        ));
+
+        // Verschil in milliseconden
+        const diff = nextMidnightUTC - nowUTC;
+
+        // Bereken uren, minuten, seconden
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        // Formatteer met voorloopnullen
+        const formattedHours = hours.toString().padStart(2, '0');
+        const formattedMinutes = minutes.toString().padStart(2, '0');
+        const formattedSeconds = seconds.toString().padStart(2, '0');
+
+        // Update de countdown op de pagina
+        const digits = document.querySelectorAll('.countdown-digit');
+        if (digits.length === 3) {
+            digits[0].textContent = formattedHours;
+            digits[1].textContent = formattedMinutes;
+            digits[2].textContent = formattedSeconds;
         }
-        
-        // Update immediately and then every second
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+    }
+
+    // Start countdown
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // Smooth scroll anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
             });
         });
-    </script>
+    });
+</script>
 </body>
 </html>
