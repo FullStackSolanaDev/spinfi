@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPINFI - The Revolutionary Tax Token on Solana</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        spinfiOrange: '#FE9900',
+                        spinfiPurple: '#7E22CE',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'display': ['"Press Start 2P"', 'cursive'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Press+Start+2P&display=swap');
+        
+        body {
+            background-color: #0F172A;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .coin-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .glow {
+            text-shadow: 0 0 10px rgba(254, 153, 0, 0.7);
+        }
+        
+        .mode-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-5px);
+            border-color: #FE9900;
+            box-shadow: 0 10px 25px rgba(254, 153, 0, 0.3);
+        }
+        
+        .countdown-digit {
+            background: linear-gradient(135deg, #FE9900, #7E22CE);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.5rem;
+        }
+        
+        .tokenomics-bar {
+            height: 40px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .tokenomics-segment-60 {
+            width: 60%;
+            background: linear-gradient(90deg, #FE9900, #F59E0B);
+        }
+        
+        .tokenomics-segment-30 {
+            width: 30%;
+            background: linear-gradient(90deg, #7E22CE, #9333EA);
+        }
+        
+        .tokenomics-segment-10 {
+            width: 10%;
+            background: linear-gradient(90deg, #EF4444, #F87171);
+        }
+        
+        .roadmap-item {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .roadmap-item:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #FE9900;
+        }
+        
+        .roadmap-line {
+            position: absolute;
+            left: 10px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% - 20px);
+            background: #7E22CE;
+        }
+        
+        .coin-decoration {
+            position: absolute;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .coin-decoration-1 {
+            top: 10%;
+            left: 5%;
+            width: 100px;
+            height: 100px;
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .coin-decoration-2 {
+            top: 30%;
+            right: 10%;
+            width: 150px;
+            height: 150px;
+            animation: float 5s ease-in-out infinite 1s;
+        }
+        
+        .coin-decoration-3 {
+            bottom: 20%;
+            left: 15%;
+            width: 120px;
+            height: 120px;
+            animation: float 6s ease-in-out infinite 0.5s;
+        }
+        
+        .coin-decoration-4 {
+            bottom: 10%;
+            right: 5%;
+            width: 80px;
+            height: 80px;
+            animation: float 4.5s ease-in-out infinite 1.5s;
+        }
+        
+        .jackpot-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .blink {
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="relative overflow-x-hidden">
+    <!-- Coin Decorations -->
+    <img src="https://i.ibb.co/H9Gm1b2/IMG-9400.jpg" class="coin-decoration coin-decoration-1" alt="coin decoration">
+    <img src="https://i.ibb.co/H9Gm1b2/IMG-9400.jpg" class="coin-decoration coin-decoration-2" alt="coin decoration">
+    <img src="https://i.ibb.co/H9Gm1b2/IMG-9400.jpg" class="coin-decoration coin-decoration-3" alt="coin decoration">
+    <img src="https://i.ibb.co/H9Gm1b2/IMG-9400.jpg" class="coin-decoration coin-decoration-4" alt="coin decoration">
+    
+    <!-- Navigation -->
+    <nav class="bg-gray-900/80 backdrop-blur-md sticky top-0 z-50 border-b border-spinfiOrange/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <img class="h-10" src="https://i.ibb.co/mrWxg931/IMG-9401.png" alt="SpinFi Logo">
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#home" class="text-spinfiOrange hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="#tokenomics" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Tokenomics</a>
+                        <a href="#modes" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Game Modes</a>
+                        <a href="#roadmap" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Roadmap</a>
+                        <a href="#buy" class="bg-spinfiOrange hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm font-medium">Buy Now</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative py-20 md:py-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 font-display">
+                        <span class="text-spinfiOrange">SPIN</span><span class="text-white">FI</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-8 text-gray-300">
+                        The first Solana-based reward token with <span class="text-spinfiOrange font-semibold">rotating prize mechanics</span>
+                    </p>
+                    <p class="text-lg mb-8 text-gray-300">
+                        Hold to earn. Spin to win. Every 24 hours, the mode changes—every day is a new chance to hit the jackpot.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#buy" class="bg-spinfiOrange hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg text-center transition duration-300">
+                            Buy Now
+                        </a>
+                        <a href="#modes" class="border-2 border-spinfiOrange text-spinfiOrange hover:bg-spinfiOrange hover:text-white font-bold py-3 px-8 rounded-lg text-center transition duration-300">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center relative">
+                    <div class="relative">
+                        <img src="https://i.ibb.co/H9Gm1b2/IMG-9400.jpg" alt="SpinFi Logo" class="w-64 h-64 md:w-80 md:h-80 coin-animation">
+                        <div class="absolute -top-5 -right-5 bg-spinfiPurple text-white font-display text-xs md:text-sm px-3 py-1 rounded-full">
+                            SOLANA
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Current Mode Section -->
+    <section class="bg-gradient-to-r from-gray-900 to-spinfiPurple/20 py-12 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold mb-2 font-display">
+                    <span class="text-spinfiOrange">CURRENT</span> MODE
+                </h2>
+                <p class="text-gray-300">Mode changes every 24 hours</p>
+            </div>
+            
+            <div class="bg-gray-800/50 backdrop-blur-md rounded-xl p-6 max-w-4xl mx-auto border border-spinfiOrange/30">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/3 mb-6 md:mb-0 flex justify-center">
+                        <div class="relative">
+                            <i class="fas fa-trophy text-6xl text-spinfiOrange"></i>
+                            <div class="absolute -top-2 -right-2 bg-spinfiPurple text-white font-bold text-xs px-2 py-1 rounded-full blink">
+                                LIVE
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-2/3 text-center md:text-left">
+                        <h3 class="text-2xl font-bold mb-2 text-spinfiOrange">JACKPOT MODE</h3>
+                        <p class="text-gray-300 mb-4">
+                            10 holders randomly selected. Tiered reward structure with the biggest bag getting the best odds!
+                        </p>
+                        <div class="flex flex-col items-center md:items-start">
+                            <div class="mb-4">
+                                <h4 class="font-semibold text-white mb-2">Next Spin In:</h4>
+                                <div class="flex space-x-2">
+                                    <div class="countdown-digit">12</div>
+                                    <div class="countdown-digit">34</div>
+                                    <div class="countdown-digit">56</div>
+                                </div>
+                            </div>
+                            <div class="bg-spinfiPurple/30 text-white px-4 py-2 rounded-lg">
+                                <span class="font-semibold">Current Prize Pool:</span> SOON
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tokenomics Section -->
+    <section id="tokenomics" class="py-20 bg-gray-900 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-2 font-display">
+                    <span class="text-spinfiOrange">TOKEN</span>OMICS
+                </h2>
+                <p class="text-gray-300">We power real returns—not just hype</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-spinfiOrange/30">
+                    <h3 class="text-xl font-bold mb-4 text-spinfiOrange">Tax Structure (7% Buy / 7% Sell)</h3>
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">Rewards Pool</span>
+                            <span class="font-bold text-spinfiOrange">60%</span>
+                        </div>
+                        <div class="tokenomics-bar">
+                            <div class="tokenomics-segment-60 h-full"></div>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">Development & Scaling</span>
+                            <span class="font-bold text-purple-400">30%</span>
+                        </div>
+                        <div class="tokenomics-bar">
+                            <div class="tokenomics-segment-30 h-full"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">Burn</span>
+                            <span class="font-bold text-red-400">10%</span>
+                        </div>
+                        <div class="tokenomics-bar">
+                            <div class="tokenomics-segment-10 h-full"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-spinfiPurple/30">
+                    <h3 class="text-xl font-bold mb-4 text-spinfiPurple">Supply Allocation</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 rounded-full bg-spinfiOrange mr-3"></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-300">Liquidity Pool</span>
+                                    <span class="font-bold">70%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 rounded-full bg-spinfiPurple mr-3"></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-300">Marketing & CEX Listings</span>
+                                    <span class="font-bold">10%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 rounded-full bg-yellow-400 mr-3"></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-300">Airdrop & Community Rewards</span>
+                                    <span class="font-bold">10%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 rounded-full bg-green-400 mr-3"></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-300">Core Team (Cliff + Vesting)</span>
+                                    <span class="font-bold">10%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-white/10 max-w-4xl mx-auto">
+                <h3 class="text-xl font-bold mb-4 text-center text-white">How It Works</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="bg-spinfiOrange/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-exchange-alt text-spinfiOrange text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold mb-2">Every Transaction Fuels Rewards</h4>
+                        <p class="text-gray-300 text-sm">A 7% fee feeds daily rewards, development, and deflationary burns</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-spinfiPurple/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-random text-spinfiPurple text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold mb-2">Automated Distribution</h4>
+                        <p class="text-gray-300 text-sm">Rewards are minted and automatically distributed on-chain</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-green-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-sync-alt text-green-500 text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold mb-2">Daily Mode Rotation</h4>
+                        <p class="text-gray-300 text-sm">Modes rotate every 24 hours, gamifying your bag's value</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Modes Section -->
+    <section id="modes" class="py-20 bg-gradient-to-b from-gray-900 to-gray-800 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-2 font-display">
+                    <span class="text-spinfiOrange">GAME</span> MODES
+                </h2>
+                <p class="text-gray-300">Daily rotating utility system to maximize reward excitement</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Jackpot Mode -->
+                <div class="mode-card bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-spinfiOrange/30">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-spinfiOrange/20 rounded-full w-12 h-12 flex items-center justify-center mr-4">
+                            <i class="fas fa-trophy text-spinfiOrange text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-spinfiOrange">Jackpot Mode</h3>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        10 holders randomly selected. Tiered reward structure:
+                    </p>
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center">
+                            <span class="bg-spinfiOrange text-white rounded-full w-6 h-6 flex items-center justify-center mr-3">1</span>
+                            <span class="font-medium">1st: 40%</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="bg-gray-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-3">2</span>
+                            <span class="font-medium">2nd: 20%</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="bg-amber-700 text-white rounded-full w-6 h-6 flex items-center justify-center mr-3">3</span>
+                            <span class="font-medium">3rd: 10%</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="bg-gray-300 text-gray-900 rounded-full w-6 h-6 flex items-center justify-center mr-3">7</span>
+                            <span class="font-medium">Others: Share 30%</span>
+                        </div>
+                    </div>
+                    <div class="text-sm text-spinfiOrange font-semibold">
+                        <i class="fas fa-info-circle mr-2"></i> The bigger your bag, the better your odds
+                    </div>
+                </div>
+                
+                <!-- Lottery Mode -->
+                <div class="mode-card bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-spinfiPurple/30">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-spinfiPurple/20 rounded-full w-12 h-12 flex items-center justify-center mr-4">
+                            <i class="fas fa-ticket-alt text-spinfiPurple text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-spinfiPurple">Lottery Mode</h3>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        One holder takes the entire day's reward pool. The more $SPINFI you hold, the greater your odds.
+                    </p>
+                    <div class="mb-6 flex justify-center">
+                        <div class="relative">
+                            <i class="fas fa-dice text-5xl text-spinfiPurple jackpot-spinner"></i>
+                            <div class="absolute -bottom-2 -right-2 bg-spinfiOrange text-white text-xs px-2 py-1 rounded-full">
+                                LUCKY!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-sm text-spinfiPurple font-semibold">
+                        <i class="fas fa-info-circle mr-2"></i> It only takes one spin to win big
+                    </div>
+                </div>
+                
+                <!-- Powerball Mode -->
+                <div class="mode-card bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-green-500/30">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-500/20 rounded-full w-12 h-12 flex items-center justify-center mr-4">
+                            <i class="fas fa-users text-green-500 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-green-500">Powerball Mode</h3>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        Up to 50 holders are randomly selected and share the reward pool equally.
+                    </p>
+                    <div class="flex justify-center mb-6">
+                        <div class="relative">
+                            <div class="flex">
+                                <div class="bg-yellow-400 text-gray-900 font-bold rounded-full w-10 h-10 flex items-center justify-center mr-2">$</div>
+                                <div class="bg-yellow-400 text-gray-900 font-bold rounded-full w-10 h-10 flex items-center justify-center mr-2">$</div>
+                                <div class="bg-yellow-400 text-gray-900 font-bold rounded-full w-10 h-10 flex items-center justify-center">$</div>
+                            </div>
+                            <div class="absolute -bottom-2 -right-2 bg-spinfiPurple text-white text-xs px-2 py-1 rounded-full">
+                                50 WINNERS
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-sm text-green-500 font-semibold">
+                        <i class="fas fa-info-circle mr-2"></i> Mass adoption = mass rewards
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why SpinFi Section -->
+    <section class="py-20 bg-gray-900 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-2 font-display">
+                    WHY <span class="text-spinfiOrange">SPINFI</span>?
+                </h2>
+                <p class="text-gray-300">Built on Solana. Powered by RevShare.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-spinfiOrange/20">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-spinfiOrange/20 rounded-full w-10 h-10 flex items-center justify-center mr-4">
+                            <i class="fas fa-coins text-spinfiOrange"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Passive Rewards</h3>
+                    </div>
+                    <p class="text-gray-300">
+                        Earn rewards just by holding. No staking or claiming needed - everything happens automatically.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-spinfiPurple/20">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-spinfiPurple/20 rounded-full w-10 h-10 flex items-center justify-center mr-4">
+                            <i class="fas fa-calendar-day text-spinfiPurple"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Daily Win Potential</h3>
+                    </div>
+                    <p class="text-gray-300">
+                        Every day brings a new chance to win with our rotating game modes.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-green-500/20">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-500/20 rounded-full w-10 h-10 flex items-center justify-center mr-4">
+                            <i class="fas fa-robot text-green-500"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Automated Distributions</h3>
+                    </div>
+                    <p class="text-gray-300">
+                        Rewards are distributed automatically on-chain without any manual intervention.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-yellow-500/20">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-yellow-500/20 rounded-full w-10 h-10 flex items-center justify-center mr-4">
+                            <i class="fas fa-fire text-yellow-500"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Deflationary Mechanics</h3>
+                    </div>
+                    <p class="text-gray-300">
+                        10% of all taxes are burned, permanently reducing supply and increasing scarcity.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-blue-500/20">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-500/20 rounded-full w-10 h-10 flex items-center justify-center mr-4">
+                            <i class="fas fa-share-alt text-blue-500"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">RevShare-Powered</h3>
+                    </div>
+                    <p class="text-gray-300">
+                        Sustainable reward mechanics powered by the RevShare protocol.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-red-500/20">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-red-500/20 rounded-full w-10 h-10 flex items-center justify-center mr-4">
+                            <i class="fas fa-lock-open text-red-500"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Transparent Tokenomics</h3>
+                    </div>
+                    <p class="text-gray-300">
+                        Clean and public tokenomics with no hidden allocations or surprises.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="py-20 bg-gradient-to-b from-gray-800 to-gray-900 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-2 font-display">
+                    <span class="text-spinfiOrange">SPINFI</span> ROADMAP
+                </h2>
+                <p class="text-gray-300">From launchpad to leaderboard—here's what's coming</p>
+            </div>
+            
+            <div class="relative">
+                <!-- Roadmap Timeline -->
+                <div class="space-y-8">
+                    <!-- Phase 1 -->
+                    <div class="roadmap-item">
+                        <div class="roadmap-line"></div>
+                        <div class="bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-spinfiOrange/30">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-spinfiOrange text-white rounded-full w-8 h-8 flex items-center justify-center mr-4">
+                                    1
+                                </div>
+                                <h3 class="text-xl font-bold text-spinfiOrange">Phase 1 – Launch & Liquidity (Q2 2025)</h3>
+                            </div>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2 pl-4">
+                                <li>Token creation via RevShare (Token‑2022 standard)</li>
+                                <li>Liquidity deployment (Raydium)</li>
+                                <li>Website + brand reveal</li>
+                                <li>Community building on X & Telegram</li>
+                                <li>Airdrop campaigns & referral drive</li>
+                                <li>Daily mode rotation launch: Jackpot, Lottery, Powerball</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 2 -->
+                    <div class="roadmap-item">
+                        <div class="roadmap-line"></div>
+                        <div class="bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-spinfiPurple/30">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-spinfiPurple text-white rounded-full w-8 h-8 flex items-center justify-center mr-4">
+                                    2
+                                </div>
+                                <h3 class="text-xl font-bold text-spinfiPurple">Phase 2 – Core Utilities & Rewards (Q3 2025)</h3>
+                            </div>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2 pl-4">
+                                <li>Reward Mint system upgrade for gasless distribution</li>
+                                <li>SpinBot Telegram bot (alerts: daily winners, pool stats)</li>
+                                <li>Holder analytics dashboard</li>
+                                <li>CEX listings: Tier 2 (pending)</li>
+                                <li>First influencer-backed "Spin Wars" volume competition</li>
+                                <li>Partnerships with Solana ecosystem dApps</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 3 -->
+                    <div class="roadmap-item">
+                        <div class="roadmap-line"></div>
+                        <div class="bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-green-500/30">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4">
+                                    3
+                                </div>
+                                <h3 class="text-xl font-bold text-green-500">Phase 3 – Gamification & NFTs (Q4 2025)</h3>
+                            </div>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2 pl-4">
+                                <li>Launch of SpinFi NFT Series (boost odds, passive XP)</li>
+                                <li>NFT-holder bonus modes (e.g., 2x odds for rare holders)</li>
+                                <li>"Mode Vote" feature: let the community pick tomorrow's mode</li>
+                                <li>Cross-token reflections: rewards paid in $SPINFI + trending SOL meme tokens</li>
+                                <li>Multi-chain visibility (CoinGecko, SolScan, Dexscreener embeds)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 4 -->
+                    <div class="roadmap-item">
+                        <div class="roadmap-line"></div>
+                        <div class="bg-gray-800/50 backdrop-blur-md rounded-xl p-6 border border-yellow-500/30">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-yellow-500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4">
+                                    4
+                                </div>
+                                <h3 class="text-xl font-bold text-yellow-500">Phase 4 – Ecosystem Expansion (2026+)</h3>
+                            </div>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2 pl-4">
+                                <li>Launch of SpinFi Arena: high-stakes game mode with entry fees</li>
+                                <li>DAO activation for treasury control + roadmap voting</li>
+                                <li>Buyback/burn protocol funded by secondary product revenue</li>
+                                <li>Mobile-native reward dashboard</li>
+                                <li>Global tour: IRL marketing in SEA & EU crypto events</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Buy Section -->
+    <section id="buy" class="py-20 bg-gray-900 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-2 font-display">
+                    GET <span class="text-spinfiOrange">SPINFI</span>
+                </h2>
+                <p class="text-gray-300">Available on Solana DEXs</p>
+            </div>
+            
+            <div class="bg-gray-800/50 backdrop-blur-md rounded-xl p-8 max-w-3xl mx-auto border border-spinfiOrange/30">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 mb-8 md:mb-0 flex justify-center">
+                        <div class="relative">
+                            <img src="https://i.ibb.co/H9Gm1b2/IMG-9400.jpg" alt="SpinFi Logo" class="w-40 h-40 coin-animation">
+                            <div class="absolute -bottom-2 -right-2 bg-spinfiPurple text-white font-display text-xs px-3 py-1 rounded-full">
+                                SOLANA
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 text-center md:text-left">
+                        <h3 class="text-2xl font-bold mb-4 text-spinfiOrange">Buy $SPINFI Now</h3>
+                        <p class="text-gray-300 mb-6">
+                            Join the revolution of rotating reward mechanics on Solana.
+                        </p>
+                        <div class="flex flex-col space-y-4">
+                            <a href="#" class="bg-spinfiOrange hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg text-center transition duration-300 flex items-center justify-center">
+                                <i class="fab fa-google-play mr-2"></i> Buy on Revshare
+                            </a>
+                            <a href="#" class="bg-spinfiPurple hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg text-center transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-exchange-alt mr-2"></i> Buy on Raydium
+                            </a>
+                            <a href="#" class="border-2 border-spinfiOrange text-spinfiOrange hover:bg-spinfiOrange hover:text-white font-bold py-3 px-6 rounded-lg text-center transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-chart-line mr-2"></i> View Chart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900/80 backdrop-blur-md border-t border-spinfiOrange/20 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <img src="https://i.ibb.co/mrWxg931/IMG-9401.png" alt="SpinFi Logo" class="h-10 mb-4">
+                    <p class="text-gray-300 mb-4">
+                        SpinFi isn't just a token. It's a daily lottery, a decentralized jackpot, and a yield mechanic—all in your wallet.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-spinfiOrange">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="https://t.me/SpinFi_sol" class="text-gray-400 hover:text-spinfiOrange">
+                            <i class="fab fa-telegram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-300 hover:text-spinfiOrange">Home</a></li>
+                        <li><a href="#tokenomics" class="text-gray-300 hover:text-spinfiOrange">Tokenomics</a></li>
+                        <li><a href="#modes" class="text-gray-300 hover:text-spinfiOrange">Game Modes</a></li>
+                        <li><a href="#roadmap" class="text-gray-300 hover:text-spinfiOrange">Roadmap</a></li>
+                        <li><a href="#buy" class="text-gray-300 hover:text-spinfiOrange">Buy Now</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-spinfiOrange">Telegram</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-spinfiOrange">X</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-spinfiOrange">Contract Address</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-spinfiOrange">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2025 SpinFi. All rights reserved. Built on Solana. Powered by RevShare.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Countdown timer for the current mode
+        function updateCountdown() {
+            // Set the target date (24 hours from now)
+            const now = new Date();
+            const target = new Date(now);
+            target.setHours(target.getHours() + 24);
+            
+            // Calculate the difference
+            const diff = target - now;
+            
+            // Calculate hours, minutes, seconds
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            // Format with leading zeros
+            const formattedHours = hours.toString().padStart(2, '0');
+            const formattedMinutes = minutes.toString().padStart(2, '0');
+            const formattedSeconds = seconds.toString().padStart(2, '0');
+            
+            // Update the display
+            const digits = document.querySelectorAll('.countdown-digit');
+            if (digits.length === 3) {
+                digits[0].textContent = formattedHours;
+                digits[1].textContent = formattedMinutes;
+                digits[2].textContent = formattedSeconds;
+            }
+        }
+        
+        // Update immediately and then every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
